@@ -13,22 +13,18 @@ import Axios from 'axios';
 class UserDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      users:[]
-    }
   }
 
+
   render() {
-    console.log("in the userDetail")
+    const user = this.props.songogdsnUser
     return (
-      <Typography variant="body1">
-        This should be the UserDetail view of the PhotoShare app. Since
-        it is invoked from React Router the params from the route will be
-        in property match. So this should show details of user:
-        {this.props.match.params.userId}. You can fetch the model for the
-        user from window.cs142models.userModel(userId).
-      </Typography>
-      
+      <div>
+        <h1>{user.first_name} {user.last_name}</h1>
+        <p>{user.occupation}</p>
+        <strong> {user.description}</strong>
+        <p>{user.location}</p>
+      </div>
     );
   }
 }

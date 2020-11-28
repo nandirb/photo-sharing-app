@@ -19,21 +19,16 @@ import UserPhotos from './components/userPhotos/UserPhotos';
 class PhotoShare extends React.Component {
   constructor(props) {
     super(props);
+    this.userSongoh = this.userSongoh.bind(this)
     this.state= {
       users: window.cs142models.userListModel(),
       songogdsnUser : null
     }
-    this.userSongoh = this.userSongoh.bind(this)
   }
 
  userSongoh(user) {
-  console.log("PS->userSongoh:", user)
   this.setState({songogdsnUser: user});
-  console.log("click hiigdeed => ", this.state.songogdsnUser)
-  return <UserDetail userId={this.state.songogdsnUser} />
   }
-
-
   render() {
 
                                           {/*---------------------------------------------------- */}
@@ -50,6 +45,7 @@ class PhotoShare extends React.Component {
         <Grid item sm={3}>
           <Paper  className="cs142-main-grid-item">
           <UserList userSongoh={this.userSongoh} users={this.state.users}/>  
+          {this.state.songogdsnUser === null ? " ": <UserDetail songogdsnUser={this.state.songogdsnUser} />}
           </Paper>
         </Grid>
 
@@ -70,11 +66,11 @@ class PhotoShare extends React.Component {
 
 
               <Route path="/users/:userId"
-                render={ props => <UserDetail {...props} user={this.state.users}/> }
+                render={ props => <UserDetail {...props} songogdsnUser={this.state.songogdsnUser}/> }
               />
               
               <Route path="/photos/:userId"
-                render ={ props => <UserPhotos {...props} userId={this.state.userId}  /> }
+                render ={ props => <UserPhotos {...props} songogdsnUser={this.state.songogdsnUser}  /> }
               />
 
               <Route path="/users" component={UserList}  />
