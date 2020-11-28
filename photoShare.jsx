@@ -21,14 +21,19 @@ class PhotoShare extends React.Component {
     super(props);
     this.state= {
       users: window.cs142models.userListModel(),
-      userId : null
+      songogdsnUser : null
     }
-    this.setUserId = this.setUserId.bind(this)
+    this.userSongoh = this.userSongoh.bind(this)
   }
- setUserId(user) {
-  console.log("ps dotor:", user.target)
-  this.setState({userId: user});
-}
+
+ userSongoh(user) {
+  console.log("PS->userSongoh:", user)
+  this.setState({songogdsnUser: user});
+  console.log("click hiigdeed => ", this.state.songogdsnUser)
+  return <UserDetail userId={this.state.songogdsnUser} />
+  }
+
+
   render() {
 
                                           {/*---------------------------------------------------- */}
@@ -44,8 +49,7 @@ class PhotoShare extends React.Component {
       {/*-------------------------------------------------------------------USER LIST----------------------------------------------------------------------------- */}
         <Grid item sm={3}>
           <Paper  className="cs142-main-grid-item">
-          <UserList clickUser={this.setUserId} users={this.state.users}/>  
-
+          <UserList userSongoh={this.userSongoh} users={this.state.users}/>  
           </Paper>
         </Grid>
 
@@ -66,7 +70,7 @@ class PhotoShare extends React.Component {
 
 
               <Route path="/users/:userId"
-                render={ props => <UserDetail {...props} /> }
+                render={ props => <UserDetail {...props} user={this.state.users}/> }
               />
               
               <Route path="/photos/:userId"

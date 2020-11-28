@@ -17,16 +17,9 @@ class UserDetail extends React.Component {
       users:[]
     }
   }
-  componentDidMount() {
-    console.log(this.props.match.params.userId)
-    // axios.get(`http://localhost:3000/photo-share.html#/users/:${this.props.match.params.userId}`)
-    //   .then(
-    //     res => {
-    //     const users = res.data;
-    //     this.setState({ users });
-    //   })
-  }
+
   render() {
+    console.log("in the userDetail")
     return (
       <Typography variant="body1">
         This should be the UserDetail view of the PhotoShare app. Since

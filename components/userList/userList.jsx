@@ -1,16 +1,12 @@
 import React, {useState} from 'react';
 
 import {
-  Divider,
-  List,
-  ListItem,
+  List, ListItem,
   ListItemText,
-  Typography,
+  Divider,
   Avatar,
-  Badge
 }
 from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 import './userList.css';
 
 
@@ -18,51 +14,35 @@ import './userList.css';
  * Define UserList, a React componment of CS142 project #5
  */
 
- 
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: 0,
-    top: 5,
-    background: "#00e676",
-  },
-}))(Badge)
-
-
-class UserList extends React.Component {
+export default class UserList extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick(e) {
-    this.props.clickUser(e);
+    //this.handleClick = this.handleClick.bind(this);
   }
   render() {
-    console.log("userlist dotorh props--", this.props)
-    const { users, clickUser } = this.props
-    const usersInfo = users.map( el=> {
-      
-      return(
-        <div className="user_list">
-          <StyledBadge overlap="circle" variant="dot" >
-             <Avatar alt="logo"  />
-          </StyledBadge>
-          <ListItem className="aa" key= {el._id}   
-            onClick={ this.handleClick} >
-            <ListItemText primary= {`${el['first_name']} ${el['last_name']}`}/>
-          </ListItem>
-         <Divider />
-        </div>
-
-      ) 
-    })
+    console.log("UL props--", this.props)
+    const { users, userSongoh } = this.props  
     return (
       <div>
-        <List component="nav">
-        {usersInfo}
-        </List>
+
+        {
+          users.map(el=> <Li el= {el} userSongoh={userSongoh} />)
+        }
+        
       </div>
     );
   }
 }
 
-export default UserList;
+const Li = (props) => {
+  console.log("Li props--", props)
+  return(
+    <div>
+      <ListItem onClick={()=> props.userSongoh(props.el)} className="listitem" >
+          <Avatar alt="logo"  />
+          <ListItemText primary={props.el.first_name +" "+props.el.last_name}/>
+      </ListItem>
+     <Divider />
+     </div>
+  )
+}
