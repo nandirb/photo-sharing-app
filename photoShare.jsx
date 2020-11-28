@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import {
-  HashRouter, Route, Switch
+  HashRouter, Route, Switch, Link 
 } from 'react-router-dom';
 import {
   Grid, Typography, Paper
 } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import './styles/main.css';
 
 // import necessary components
@@ -14,47 +15,68 @@ import UserDetail from './components/userDetail/UserDetail';
 import UserList from './components/userList/UserList';
 import UserPhotos from './components/userPhotos/UserPhotos';
 
+
 class PhotoShare extends React.Component {
   constructor(props) {
     super(props);
+    this.state= {
+      users: window.cs142models.userListModel(),
+      userId : null
+    }
+    this.setUserId = this.setUserId.bind(this)
   }
-
+ setUserId(user) {
+  console.log("ps dotor:", user.target)
+  this.setState({userId: user});
+}
   render() {
+
+                                          {/*---------------------------------------------------- */}
     return (
       <HashRouter>
       <div>
       <Grid container spacing={8}>
+      {/*-------------------------------------------------------------------TOP BAR-------------------------------------------------------------------------------- */}
         <Grid item xs={12}>
           <TopBar/>
         </Grid>
-        <div className="cs142-main-topbar-buffer"/>
+        <div className="cs142-main-topbar-buffer"/>  
+      {/*-------------------------------------------------------------------USER LIST----------------------------------------------------------------------------- */}
         <Grid item sm={3}>
           <Paper  className="cs142-main-grid-item">
-            <UserList />
+          <UserList clickUser={this.setUserId} users={this.state.users}/>  
+
           </Paper>
         </Grid>
+
+      {/*--------------------------------------------------------ZURAG ESVEL MEDEELEL HARRUULAH HESEG--------------------------------------------------------------- */}
         <Grid item sm={9}>
           <Paper className="cs142-main-grid-item">
-            <Switch>
+          <Switch>
             <Route exact path="/"
-                render={() =>
-                  <Typography variant="body1">
-                  Welcome to your photosharing app! This <a href="https://material-ui.com/demos/paper/">Paper</a> component
-                  displays the main content of the application. The {"sm={9}"} prop in
-                  the <a href="https://material-ui.com/layout/grid/">Grid</a> item component makes it responsively
-                  display 9/12 of the window. The Switch component enables us to conditionally render different
-                  components to this part of the screen. You don&apos;t need to display anything here on the homepage,
-                  so you should delete this Route component once you get started.
-                  </Typography>}
-              />
+                render={     
+                  ({history}) =>{
+                  <Button variant="contained" color="secondary" onClick={() => { history.push('/users/:userId') }}>
+                    <p>usersDetail</p>
+                  </Button>  
+                }
+                  
+                  
+                }/>
+
+
               <Route path="/users/:userId"
                 render={ props => <UserDetail {...props} /> }
               />
+              
               <Route path="/photos/:userId"
-                render ={ props => <UserPhotos {...props} /> }
+                render ={ props => <UserPhotos {...props} userId={this.state.userId}  /> }
               />
+
               <Route path="/users" component={UserList}  />
             </Switch>
+
+
           </Paper>
         </Grid>
       </Grid>
