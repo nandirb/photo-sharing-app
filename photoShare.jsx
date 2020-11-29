@@ -4,9 +4,8 @@ import {
   HashRouter, Route, Switch, Link 
 } from 'react-router-dom';
 import {
-  Grid, Typography, Paper
+  Grid, Typography, Paper, Divider
 } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import './styles/main.css';
 
 // import necessary components
@@ -19,18 +18,24 @@ import UserPhotos from './components/userPhotos/UserPhotos';
 class PhotoShare extends React.Component {
   constructor(props) {
     super(props);
-    this.userSongoh = this.userSongoh.bind(this)
     this.state= {
-      users: window.cs142models.userListModel(),
-      songogdsnUser : null
+      songogdsnUser : null,
+      screenType: "home"
     }
+    this.userSongoh = this.userSongoh.bind(this)
+    this.screenTypeSolih= this.screenTypeSolih.bind(this)
   }
-
- userSongoh(user) {
-  this.setState({songogdsnUser: user});
+  userSongoh(user){
+    this.setState({
+      songogdsnUser: user
+    })
+  }
+  screenTypeSolih(screen){
+    this.setState({
+      screenType: screen
+    })
   }
   render() {
-
                                           {/*---------------------------------------------------- */}
     return (
       <HashRouter>
@@ -38,14 +43,17 @@ class PhotoShare extends React.Component {
       <Grid container spacing={8}>
       {/*-------------------------------------------------------------------TOP BAR-------------------------------------------------------------------------------- */}
         <Grid item xs={12}>
-          <TopBar/>
+          <TopBar screenType= {this.state.screenType} songogdsnUser={this.state.songogdsnUser}/>
         </Grid>
         <div className="cs142-main-topbar-buffer"/>  
       {/*-------------------------------------------------------------------USER LIST----------------------------------------------------------------------------- */}
         <Grid item sm={3}>
           <Paper  className="cs142-main-grid-item">
-          <UserList userSongoh={this.userSongoh} users={this.state.users}/>  
-          {this.state.songogdsnUser === null ? " ": <UserDetail songogdsnUser={this.state.songogdsnUser} />}
+          <UserList userSongoh={this.userSongoh}/>  
+          <Divider />
+          <Link  to={`/users/`}>
+            See all users
+            </Link>
           </Paper>
         </Grid>
 
@@ -53,27 +61,20 @@ class PhotoShare extends React.Component {
         <Grid item sm={9}>
           <Paper className="cs142-main-grid-item">
           <Switch>
-            <Route exact path="/"
-                render={     
-                  ({history}) =>{
-                  <Button variant="contained" color="secondary" onClick={() => { history.push('/users/:userId') }}>
-                    <p>usersDetail</p>
-                  </Button>  
-                }
+              <Route exact path="/" component={Home}
                   
-                  
-                }/>
+                />
 
 
               <Route path="/users/:userId"
-                render={ props => <UserDetail {...props} songogdsnUser={this.state.songogdsnUser}/> }
+                render={ props => <UserDetail {...props} userSongoh={this.userSongoh} screenTypeSolih={this.screenTypeSolih} /> }
               />
               
               <Route path="/photos/:userId"
-                render ={ props => <UserPhotos {...props} songogdsnUser={this.state.songogdsnUser}  /> }
+                render ={ props => <UserPhotos {...props} userSongoh={this.userSongoh} screenTypeSolih={this.screenTypeSolih}  /> }
               />
 
-              <Route path="/users" component={UserList}  />
+               <Route path="/users" component={UserList}  />
             </Switch>
 
 
@@ -85,9 +86,17 @@ class PhotoShare extends React.Component {
     );
   }
 }
-
+const Home = () => {
+ 
+  return(
+    <div>
+      hehe
+     </div>
+  )
+}
 
 ReactDOM.render(
-  <PhotoShare />,
+<PhotoShare />
+  ,
   document.getElementById('photoshareapp'),
 );

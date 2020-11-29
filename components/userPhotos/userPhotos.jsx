@@ -3,32 +3,65 @@ import {
   Typography
 } from '@material-ui/core';
 import './userPhotos.css';
-
+import { Photo } from '@material-ui/icons';
 
 /**
  * Define UserPhotos, a React componment of CS142 project #5
  */
-class UserPhotos extends React.Component {
+export default class UserPhotos extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      ...window.cs142models.userModel(props.match.params.userId),
+      photos:window.cs142models.photoOfUserModel(props.match.params.userId)
+    }
+    this.props.screenTypeSolih("photo")
+    
   }
-
+  componentDidUpdate(prevprop) {
+    if (prevprop.match.params.userId !== this.props.match.params.userId) {
+      photos:window.cs142models.photoOfUserModel(this.props.match.params.userId)
+    }
+    
+  }
   render() {
+    const { photos } = this.state
+    console.log(photos)
     return (
-      <Typography variant="body1">
-      This should be the UserPhotos view of the PhotoShare app. Since
-      it is invoked from React Router the params from the route will be
-      in property match. So this should show details of user:
-      {this.props.match.params.userId}. You can fetch the model for the user from
-      window.cs142models.photoOfUserModel(userId):
-        <Typography variant="caption">
-          {JSON.stringify(window.cs142models.photoOfUserModel(this.props.match.params.userId))}
-        </Typography>
-      </Typography>
+      <div>
 
+      <div className="userDetail">
+          <div className="img ">
+             <img src={`images/${this.state.photos[0].file_name}`} alt=""/>
+          </div>
+          <div className="info">
+             <h1>{this.state.first_name+" "+this.state.last_name}</h1>
+             <h3>📍 {this.state.location}</h3>
+             <p>👨‍🎓 {this.state.occupation} </p>
+             <p>🔖 {this.state.description} 🔖 </p>
+          </div>
+      </div>
+
+      <div className="userphotos">
+       {
+          photos.map( (el, i) =>{
+            return(
+              <PhotoCard key={i} el={el}/>
+            )
+          }) 
+       }
+      </div>
+
+
+    </div>
     );
   }
 }
-
-export default UserPhotos;
+const PhotoCard = (props)=>{
+  console.log(props)
+return(
+  <div>
+    photo
+  </div>
+)
+}

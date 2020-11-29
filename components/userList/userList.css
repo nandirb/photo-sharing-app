@@ -1,5 +1,14 @@
-.listitem {
+.NegUser {
+  width: 70px;
+  border: 1px solid black;
+  margin-right: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin: 10px;
+  align-items: center;
+}
+.users {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

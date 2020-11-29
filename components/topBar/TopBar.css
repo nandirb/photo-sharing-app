@@ -4,4 +4,6 @@
 }
 .toolbar {
   background-color: #cd2653;
+  display: flex;
+  justify-content: space-between;
 }

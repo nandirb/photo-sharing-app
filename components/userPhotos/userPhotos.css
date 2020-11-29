@@ -1,0 +1,11 @@
+.img > img {
+  width: 10vw;
+  height: 10vw;
+}
+
+.userphotos {
+  margin: auto;
+  display: block;
+  width: 80%;
+  background-color: aliceblue;
+}

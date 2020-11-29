@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-
+  import React, {useState} from 'react';
+  import {Link} from 'react-router-dom'
 import {
   List, ListItem,
   ListItemText,
@@ -8,41 +8,33 @@ import {
 }
 from '@material-ui/core';
 import './userList.css';
-
-
+import UserDetail from '../userDetail/userDetail'
 /**
  * Define UserList, a React componment of CS142 project #5
  */
-
 export default class UserList extends React.Component {
   constructor(props) {
     super(props);
-    //this.handleClick = this.handleClick.bind(this);
+    this.state= {
+     users: window.cs142models.userListModel(),
+    }
   }
   render() {
-    console.log("UL props--", this.props)
-    const { users, userSongoh } = this.props  
     return (
       <div>
-
-        {
-          users.map(el=> <Li el= {el} userSongoh={userSongoh} />)
-        }
-        
+         {
+          this.state.users.map((el, i) => {
+            return (
+              <Link key={i} to={`/users/${el._id}`}>
+                <ListItem>
+                  <ListItemText primary={`${el.first_name} ${el.last_name}`} />
+                </ListItem>
+                <Divider/>
+              </Link>
+            )
+          })
+         }
       </div>
     );
   }
-}
-
-const Li = (props) => {
-  console.log("Li props--", props)
-  return(
-    <div>
-      <ListItem onClick={()=> props.userSongoh(props.el)} className="listitem" >
-          <Avatar alt="logo"  />
-          <ListItemText primary={props.el.first_name +" "+props.el.last_name}/>
-      </ListItem>
-     <Divider />
-     </div>
-  )
 }
