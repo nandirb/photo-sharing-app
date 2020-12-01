@@ -10,33 +10,31 @@ export default class UserPhotos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      ...window.cs142models.userModel(this.props.match.params.userId),
       user: null,
       photos: null,
-      popUp: false
     }
-    this.popUpPhoto = this.popUpPhoto.bind(this)
+    this.props.screenTypeSolih("photo") 
   }
-  popUpPhoto(){
-    console.log("popup imniidaaaaa")
-    this.setState({popUp: true})
-  }
+ 
   componentDidMount(){
-    Axios.get('http://localhost:3000/photosOfUser/'+this.props.match.params.userId)
+    Axios.get('/photosOfUser/'+this.props.match.params.userId)
     .then((response) => {
       this.setState({photos: response.data})
     })
 
-   Axios.get('http://localhost:3000/user/'+this.props.match.params.userId)
+   Axios.get('/user/'+this.props.match.params.userId)
     .then((response) => {
       this.setState({user: response.data})
     })
   }
   render() {
-    console.log("manai state", this.state)
+   console.log(this.state)
     return (
         <div>
           {
           this.state.user !== null &&  this.state.photos !== null ? (
+            
           <div>
             <div className="userDetail">
                <div className="img "> <img src={`images/${this.state.photos[0].file_name}`} alt=""/>  </div>

@@ -4,6 +4,7 @@
 }
 
 .photogrid {
+  padding-top: 20px;
   width: 80%;
   display: flex;
 }

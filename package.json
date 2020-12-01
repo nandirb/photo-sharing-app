@@ -16,7 +16,7 @@
     "@material-ui/icons": "^4.9.1",
     "@popperjs/core": "^2.0.5",
     "axios": "^0.21.0",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "file-loader": "^3.0.1",
     "js-yaml": "^3.13.1",
     "promise": "^8.0.2",
