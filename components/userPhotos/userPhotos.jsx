@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  Typography
-} from '@material-ui/core';
+import Axios from "axios"
+import Card from "./Card"
 import './userPhotos.css';
-import { Photo } from '@material-ui/icons';
 
 /**
  * Define UserPhotos, a React componment of CS142 project #5
@@ -12,56 +10,69 @@ export default class UserPhotos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...window.cs142models.userModel(props.match.params.userId),
-      photos:window.cs142models.photoOfUserModel(props.match.params.userId)
+      user: null,
+      photos: null,
+      popUp: false
     }
-    this.props.screenTypeSolih("photo")
-    
+    this.popUpPhoto = this.popUpPhoto.bind(this)
   }
-  componentDidUpdate(prevprop) {
-    if (prevprop.match.params.userId !== this.props.match.params.userId) {
-      photos:window.cs142models.photoOfUserModel(this.props.match.params.userId)
-    }
-    
+  popUpPhoto(){
+    console.log("popup imniidaaaaa")
+    this.setState({popUp: true})
+  }
+  componentDidMount(){
+    Axios.get('http://localhost:3000/photosOfUser/'+this.props.match.params.userId)
+    .then((response) => {
+      this.setState({photos: response.data})
+    })
+
+   Axios.get('http://localhost:3000/user/'+this.props.match.params.userId)
+    .then((response) => {
+      this.setState({user: response.data})
+    })
   }
   render() {
-    const { photos } = this.state
-    console.log(photos)
+    console.log("manai state", this.state)
     return (
-      <div>
-
-      <div className="userDetail">
-          <div className="img ">
-             <img src={`images/${this.state.photos[0].file_name}`} alt=""/>
+        <div>
+          {
+          this.state.user !== null &&  this.state.photos !== null ? (
+          <div>
+            <div className="userDetail">
+               <div className="img "> <img src={`images/${this.state.photos[0].file_name}`} alt=""/>  </div>
+               <div className="info">
+                 <h1>{this.state.user.first_name+" "+this.state.user.last_name}</h1>
+                 <h3>📍 {this.state.user.location}</h3>
+                 <p>👨‍🎓 {this.state.user.occupation} </p>
+                <p>🔖 {this.state.user.description} 🔖 </p>
+               </div>
+             </div>
+             <div className="photogrid">
+                 {
+               this.state.photos !== null ? (
+                 
+                    this.state.photos.map((el, i) => <Card key={i} data={el}/>) 
+                 
+                )
+              :
+              "zurag" 
+                }
+            </div>
           </div>
-          <div className="info">
-             <h1>{this.state.first_name+" "+this.state.last_name}</h1>
-             <h3>📍 {this.state.location}</h3>
-             <p>👨‍🎓 {this.state.occupation} </p>
-             <p>🔖 {this.state.description} 🔖 </p>
-          </div>
-      </div>
-
-      <div className="userphotos">
-       {
-          photos.map( (el, i) =>{
-            return(
-              <PhotoCard key={i} el={el}/>
-            )
-          }) 
-       }
-      </div>
-
-
-    </div>
+          ) 
+          :  
+          <p>loading</p>
+        }
+        </div>
+         
     );
   }
 }
-const PhotoCard = (props)=>{
-  console.log(props)
+const Pic = (props)=>{
+  console.log("pic props  ",props)
 return(
-  <div>
-    photo
+  <div className="photogrid">
+   <img className="eachPhoto" src={`../images/${props.el.file_name}`} />
   </div>
 )
 }

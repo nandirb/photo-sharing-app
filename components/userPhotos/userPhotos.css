@@ -1,11 +1,13 @@
 .img > img {
-  width: 10vw;
-  height: 10vw;
+  min-width: 8vw;
+  min-height: 8vw;
 }
 
-.userphotos {
-  margin: auto;
-  display: block;
+.photogrid {
   width: 80%;
-  background-color: aliceblue;
+  display: flex;
+}
+.photogrid > div {
+  width: 40%;
+  height: auto;
 }
